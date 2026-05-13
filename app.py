@@ -5,7 +5,7 @@ import traceback
 
 app = Flask(__name__)
 
-APPS_SCRIPT_URL = "https://script.google.com/a/macros/bystadium.com/s/AKfycbyN-FMZ_tL-os7xF9pjE-oV0IqLuHBLYJGQGK0xwTgWbl5HeBKRb61fw-9eqcj9C0JK/exec"
+APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHupevl6AyWd_hi9dK3W5t5i2jjZA4TzBk7BiRooytbchneUvXLML4vY72G3970Alv/exec"
 
 @app.route("/")
 def home():
