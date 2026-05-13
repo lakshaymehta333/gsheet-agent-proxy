@@ -1,7 +1,5 @@
 from flask import Flask, request, jsonify
 import requests
-import json
-import traceback
 
 app = Flask(__name__)
 
@@ -13,25 +11,19 @@ def home():
 
 @app.route("/sheet", methods=["GET"])
 def get_sheet():
+
     action = request.args.get("action", "getColumns")
 
-    try:
-        response = requests.get(
-            APPS_SCRIPT_URL,
-            params={"action": action},
-            allow_redirects=True,
-            timeout=30
-        )
+    response = requests.get(
+        APPS_SCRIPT_URL,
+        params={"action": action},
+        allow_redirects=True,
+        timeout=30
+    )
 
-        return jsonify({
-            "status_code": response.status_code,
-            "final_url": response.url,
-            "content_type": response.headers.get("Content-Type"),
-            "raw_text_first_500": response.text[:500]
-        })
+    return response.text, 200, {
+        "Content-Type": "application/json"
+    }
 
-    except Exception as e:
-        return jsonify({
-            "error": str(e),
-            "traceback": traceback.format_exc()
-        }), 500
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
