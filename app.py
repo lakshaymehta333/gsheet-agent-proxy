@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import requests
 import json
+import traceback
 
 app = Flask(__name__)
 
@@ -22,15 +23,15 @@ def get_sheet():
             timeout=30
         )
 
-        try:
-            data = response.json()
-        except Exception:
-            data = json.loads(response.text)
-
-        return jsonify(data)
+        return jsonify({
+            "status_code": response.status_code,
+            "final_url": response.url,
+            "content_type": response.headers.get("Content-Type"),
+            "raw_text_first_500": response.text[:500]
+        })
 
     except Exception as e:
         return jsonify({
-            "error": "Proxy failed",
-            "details": str(e)
+            "error": str(e),
+            "traceback": traceback.format_exc()
         }), 500
